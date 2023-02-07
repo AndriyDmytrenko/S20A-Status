@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Almarai' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .row {
+      display: flex;
+    }
+
+    /* Create two equal columns that sits next to each other */
+    .column {
+      flex: 50%;
+      text-align: center;
+      padding: 10px;
+      font-size: 10vw;
+      color: white;
+      font-family: 'Almarai';
+    }
+  </style>
+  <script>
+    function loadDoc() {
+      const xhttp = new XMLHttpRequest();
+      xhttp.ResponseType = 'json'
+      xhttp.onload = function () {
+        var jsonResponse = JSON.parse(xhttp.responseText);
+        document.getElementById("label").innerHTML = jsonResponse.label;
+        document.getElementById("status").innerHTML = jsonResponse.message;
+        if (jsonResponse.color == "critical") {
+          document.getElementById("status").style = "background-color:#d1654d;";
+        } else if (jsonResponse.color == "success") {
+          document.getElementById("status").style = "background-color:#66b73a;";
+        } else {
+          document.getElementById("status").style = "background-color:grey;";
+        }
+      }
+      xhttp.open("GET", "https://healthchecks.io/badge/1e01a716-6ec6-41d6-a973-1b44ad/tT95sJlO-2/S20A.shields");
+      xhttp.send();
+    }
+    setInterval(loadDoc, 20000);
+  </script>
+
+</head>
+
+<body onload="loadDoc()">
+
+  <div class="row">
+    <div class="column" id="label" style="background-color:#555555;"></div>
+    <div class="column" id="status"></div>
+  </div>
+</body>
+
+</html>
